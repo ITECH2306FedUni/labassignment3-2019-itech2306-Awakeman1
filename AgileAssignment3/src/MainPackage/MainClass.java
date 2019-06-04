@@ -19,9 +19,9 @@ class MainClass{
     	ArrayList<String> ArrayList=new ArrayList<String>();
     	
     	//Creating the Frame
-        JFrame frame = new JFrame("Chat Frame");
+        JFrame frame = new JFrame("Agile Coding Assignment 3!");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 600);
+        frame.setSize(450, 300);
 
         //Create Bottom Panel
         JPanel bottompanel = new JPanel();
@@ -49,6 +49,11 @@ class MainClass{
 			ArrayList.add(Element);
 			textfield.setText("");
 			System.out.println(ArrayList);
+			StringBuilder sb = new StringBuilder();
+			for (String s: ArrayList) {
+			sb.append(s.toString() + "\n");
+        	}
+			textarea.setText(sb.toString());
         	}
         }
         }
@@ -60,10 +65,15 @@ class MainClass{
         	@Override
         	public void actionPerformed(ActionEvent e) {
         	ArrayList.clear();
-			
+        	textarea.append(ArrayList.toString());
 			System.out.println(ArrayList);
+			StringBuilder sb = new StringBuilder();
+			for (String s: ArrayList) {
+			sb.append(s.toString() + "\n");
         	}
-        });
+			textarea.setText(sb.toString());
+        	}
+        	});
         
         //Create Top Panel Components
         JCheckBox DarkMode = new JCheckBox();

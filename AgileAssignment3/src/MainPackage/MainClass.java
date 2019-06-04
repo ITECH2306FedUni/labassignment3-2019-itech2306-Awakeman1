@@ -4,7 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.IOException;
 import java.awt.*;
+
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.util.*; 
 import java.awt.Color;
@@ -13,6 +21,7 @@ class MainClass{
 	public static final Color VERY_DARK_GRAY = new Color(51,51,51);
 	public static final Color LIGHT_GRAY = new Color(153,153,153);
 	public static final Color VERY_LIGHT_GRAY = new Color(217,217,217);
+	
 	
     public static void main(String args[]){
     	//Create the ArrayList
@@ -32,8 +41,10 @@ class MainClass{
         // Create Text Area at the Center
         JTextArea textarea = new JTextArea();
         
+        
+        
+        
         //Create Bottom Panel Components
-        JLabel darkmodelabel = new JLabel("Enable Dark Mode");
         JLabel entertextlabel = new JLabel("Enter List Element");
         JTextField textfield = new JTextField(15); //Limit to 15 Char
         JButton send = new JButton("Add");
@@ -76,8 +87,12 @@ class MainClass{
         	});
         
         //Create Top Panel Components
+        JLabel memodelabel = new JLabel("Enable Me Mode");
+        JCheckBox MeMode = new JCheckBox();
+        JLabel darkmodelabel = new JLabel("Enable Dark Mode");
         JCheckBox DarkMode = new JCheckBox();
         DarkMode.addItemListener(new ItemListener() {
+        	
 
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -89,6 +104,8 @@ class MainClass{
                 	textfield.setBackground(Color.GRAY);
                 	textarea.setBackground(Color.GRAY);
                 	darkmodelabel.setForeground(Color.WHITE);
+                 	MeMode.setBackground(VERY_DARK_GRAY);
+                	memodelabel.setForeground(Color.WHITE);
                 	entertextlabel.setForeground(Color.WHITE);
                 	System.out.println("Sel");
                 }
@@ -100,13 +117,45 @@ class MainClass{
                 	textarea.setBackground(Color.WHITE);
                 	DarkMode.setBackground(VERY_LIGHT_GRAY);
                 	darkmodelabel.setForeground(Color.BLACK);
+                 	MeMode.setBackground(VERY_LIGHT_GRAY);
+                	memodelabel.setForeground(Color.BLACK);
                 	entertextlabel.setForeground(Color.BLACK);
                 	System.out.println("DeSel");
                 }
             }
          
         });
-        
+
+        MeMode.addItemListener(new ItemListener() {
+        	@Override
+            public void itemStateChanged(ItemEvent e) {
+                if(MeMode.isSelected()) {
+                	try {
+                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("nyan.wav").getAbsoluteFile());
+                        Clip clip = AudioSystem.getClip();
+                        clip.open(audioInputStream);
+                        FloatControl gainControl = 
+                        	    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        	gainControl.setValue(6.02f); //Increase the Gain on the Audio Clip
+                        clip.start();
+                        clip.loop(60);
+                    } catch(Exception ex) {
+                        System.out.println("Error with playing sound.");
+                        ex.printStackTrace();
+                    }
+                	ArrayList.add("NYAN");
+                	StringBuilder sb = new StringBuilder();
+        			for (String s: ArrayList) {
+        			sb.append(s.toString() + "\n");
+                	}
+        			textarea.setText(sb.toString());
+                System.out.println("MeSel");
+                
+                }
+                             
+            }
+         
+        });
         
         //Add Components to Bottom Panel (flow layout)
         bottompanel.add(entertextlabel); 
@@ -117,6 +166,8 @@ class MainClass{
         //Add Components to Top Panel (flow layout)
         toppanel.add(darkmodelabel); 
         toppanel.add(DarkMode);
+        toppanel.add(memodelabel); 
+        toppanel.add(MeMode);
 
         //Adding Components to the frame.
         frame.getContentPane().add(BorderLayout.NORTH, toppanel);

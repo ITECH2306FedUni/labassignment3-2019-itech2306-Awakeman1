@@ -30,7 +30,7 @@ class MainClass{
     	//Creating the Frame
         JFrame frame = new JFrame("Agile Coding Assignment 3!");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(450, 300);
+        frame.setSize(400, 200);
 
         //Create Bottom Panel
         JPanel bottompanel = new JPanel();
@@ -40,7 +40,10 @@ class MainClass{
         
         // Create Text Area at the Center
         JTextArea textarea = new JTextArea();
-        
+        textarea.setSize(100,100);
+
+JScrollPane scroll = new JScrollPane (textarea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
         
         
         
@@ -65,6 +68,7 @@ class MainClass{
 			sb.append(s.toString() + "\n");
         	}
 			textarea.setText(sb.toString());
+			textarea.setVisible(true);
         	}
         }
         }
@@ -103,6 +107,7 @@ class MainClass{
                 	DarkMode.setBackground(VERY_DARK_GRAY);
                 	textfield.setBackground(Color.GRAY);
                 	textarea.setBackground(Color.GRAY);
+                	scroll.setForeground(Color.BLACK);
                 	darkmodelabel.setForeground(Color.WHITE);
                  	MeMode.setBackground(VERY_DARK_GRAY);
                 	memodelabel.setForeground(Color.WHITE);
@@ -172,7 +177,8 @@ class MainClass{
         //Adding Components to the frame.
         frame.getContentPane().add(BorderLayout.NORTH, toppanel);
         frame.getContentPane().add(BorderLayout.SOUTH, bottompanel);
-        frame.getContentPane().add(BorderLayout.CENTER, textarea);
+        
+        frame.add(BorderLayout.CENTER, scroll);
         frame.setVisible(true);
     }
 }

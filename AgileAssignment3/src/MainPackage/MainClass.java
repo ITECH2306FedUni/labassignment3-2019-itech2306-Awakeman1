@@ -18,12 +18,15 @@ import java.util.*;
 import java.awt.Color;
 
 class MainClass{
+	//Creating some Custom Colours
+	//Code to do so sourced from http://teaching.csse.uwa.edu.au/units/CITS1001/colorinfo.html
 	public static final Color VERY_DARK_GRAY = new Color(51,51,51);
 	public static final Color LIGHT_GRAY = new Color(153,153,153);
 	public static final Color VERY_LIGHT_GRAY = new Color(217,217,217);
 	
 	
     public static void main(String args[]){
+    	
     	//Create the ArrayList
     	ArrayList<String> ArrayList=new ArrayList<String>();
     	
@@ -42,7 +45,9 @@ class MainClass{
         JTextArea textarea = new JTextArea();
         textarea.setSize(100,100);
 
-JScrollPane scroll = new JScrollPane (textarea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        //Making text area scrollable
+        //Code to do so sourced from https://stackoverflow.com/questions/8849063/adding-a-scrollable-jtextarea-java
+        JScrollPane scroll = new JScrollPane (textarea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         
         
@@ -51,14 +56,17 @@ JScrollPane scroll = new JScrollPane (textarea, JScrollPane.VERTICAL_SCROLLBAR_A
         JLabel entertextlabel = new JLabel("Enter List Element");
         JTextField textfield = new JTextField(15); //Limit to 15 Char
         JButton send = new JButton("Add");
+        //Action Listener for when 'Add' button is pressed
         send.addActionListener(new ActionListener()
         {
         	@Override
         	public void actionPerformed(ActionEvent e) {
         	String Element = textfield.getText();
+        	//If the textbox is empty do nothing
         	if (textfield.getText().equals("")) {
         		
         	}
+        	//If the textbox is not empty then add the contents to arraylist and spit it out in the textarea
         	else {
 			ArrayList.add(Element);
 			textfield.setText("");
@@ -75,13 +83,16 @@ JScrollPane scroll = new JScrollPane (textarea, JScrollPane.VERTICAL_SCROLLBAR_A
         );
         
         JButton clearall = new JButton("Clear All");
+        //ActionListener for the 'clear all button'
         clearall.addActionListener(new ActionListener()
         {
         	@Override
         	public void actionPerformed(ActionEvent e) {
+        	//clear the arraylist
         	ArrayList.clear();
         	textarea.append(ArrayList.toString());
 			System.out.println(ArrayList);
+			//print out content in arraylist (even though it should be empty) clears the contents of the textarea
 			StringBuilder sb = new StringBuilder();
 			for (String s: ArrayList) {
 			sb.append(s.toString() + "\n");
@@ -95,11 +106,13 @@ JScrollPane scroll = new JScrollPane (textarea, JScrollPane.VERTICAL_SCROLLBAR_A
         JCheckBox MeMode = new JCheckBox();
         JLabel darkmodelabel = new JLabel("Enable Dark Mode");
         JCheckBox DarkMode = new JCheckBox();
+        //Checkbox item listener for DarkMode
         DarkMode.addItemListener(new ItemListener() {
         	
 
             @Override
             public void itemStateChanged(ItemEvent e) {
+            	//if its selected change the colours of almost everything
                 if(DarkMode.isSelected()) {
                 	frame.setBackground(Color.DARK_GRAY);
                 	bottompanel.setBackground(VERY_DARK_GRAY);
@@ -112,8 +125,8 @@ JScrollPane scroll = new JScrollPane (textarea, JScrollPane.VERTICAL_SCROLLBAR_A
                  	MeMode.setBackground(VERY_DARK_GRAY);
                 	memodelabel.setForeground(Color.WHITE);
                 	entertextlabel.setForeground(Color.WHITE);
-                	System.out.println("Sel");
                 }
+                //If not selected change everything back to light
                 else {
                 	frame.setBackground(LIGHT_GRAY);
                 	bottompanel.setBackground(VERY_LIGHT_GRAY);
@@ -130,10 +143,11 @@ JScrollPane scroll = new JScrollPane (textarea, JScrollPane.VERTICAL_SCROLLBAR_A
             }
          
         });
-
+        //Item Listener for MeMode (MeMode if you say it fast enough sounds like Meme Mode.  Guess you can work out why)
         MeMode.addItemListener(new ItemListener() {
         	@Override
             public void itemStateChanged(ItemEvent e) {
+        		//If it is selected Play the AudioClip, and add NYAN to the arraylist and print it out in textarea
                 if(MeMode.isSelected()) {
                 	try {
                         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("nyan.wav").getAbsoluteFile());
@@ -155,11 +169,8 @@ JScrollPane scroll = new JScrollPane (textarea, JScrollPane.VERTICAL_SCROLLBAR_A
                 	}
         			textarea.setText(sb.toString());
                 System.out.println("MeSel");
-                
-                }
-                             
+                }                
             }
-         
         });
         
         //Add Components to Bottom Panel (flow layout)
@@ -177,7 +188,6 @@ JScrollPane scroll = new JScrollPane (textarea, JScrollPane.VERTICAL_SCROLLBAR_A
         //Adding Components to the frame.
         frame.getContentPane().add(BorderLayout.NORTH, toppanel);
         frame.getContentPane().add(BorderLayout.SOUTH, bottompanel);
-        
         frame.add(BorderLayout.CENTER, scroll);
         frame.setVisible(true);
     }
